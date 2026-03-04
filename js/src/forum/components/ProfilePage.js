@@ -3,7 +3,6 @@ import avatar from 'flarum/common/helpers/avatar';
 import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
 import UserPage from 'flarum/forum/components/UserPage';
-import Stream from 'flarum/common/utils/Stream';
 import Placeholder from 'flarum/common/components/Placeholder';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 
@@ -13,11 +12,15 @@ export default class ProfilePage extends UserPage {
 
     this.loading = true;
 
-    this.ignoredUsers = app.session.user.ignoredUsers();
+    this.ignoredUsers = [];
 
     this.loadUser(app.session.user.username());
 
-    this.loading = false;
+    app.store.find('users', { filter: { q: 'is:ignoring' } }).then((users) => {
+      this.ignoredUsers = users;
+      this.loading = false;
+      m.redraw();
+    });
   }
 
   content() {
@@ -44,7 +47,7 @@ export default class ProfilePage extends UserPage {
             if (confirm(app.translator.trans(`fof-ignore-users.forum.user_controls.unignore_confirmation`))) {
               user.save({ ignored: false });
               this.ignoredUsers.splice(i, 1);
-              app.session.user.ignoredUsers = Stream(this.ignoredUsers);
+              m.redraw();
             }
           };
 

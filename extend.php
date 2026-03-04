@@ -11,10 +11,10 @@
 
 namespace FoF\IgnoreUsers;
 
-use Flarum\Api\Controller;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer;
 use Flarum\Extend;
+use Flarum\Http\RequestUtil;
 use Flarum\User\Event\Saving;
 use Flarum\User\Search\UserSearcher;
 use Flarum\User\User;
@@ -41,22 +41,12 @@ return [
             ->withPivot('ignored_at');
         }),
 
-    (new Extend\ApiSerializer(Serializer\CurrentUserSerializer::class))
-        ->hasMany('ignoredUsers', Serializer\UserSerializer::class),
-
-    (new Extend\ApiController(Controller\ListUsersController::class))
-        ->addInclude('ignoredUsers')
-        ->load('ignoredUsers'),
-
-    (new Extend\ApiController(Controller\ShowUserController::class))
-        ->addInclude('ignoredUsers'),
-
     (new Extend\ApiSerializer(Serializer\UserSerializer::class))
         ->attribute('ignored', function (Serializer\UserSerializer $serializer, User $user) {
-            $canIgnored = !$user->can('notBeIgnored');
+            $actor = $serializer->getActor();
 
             /** @phpstan-ignore-next-line */
-            return $canIgnored && $serializer->getActor()->ignoredUsers->contains($user);
+            return !$user->can('notBeIgnored') && IgnoreState::isIgnored($actor->id, $user->id);
         })
         ->attribute('canBeIgnored', function (Serializer\UserSerializer $serializer, User $user) {
             return (bool) $serializer->getActor()->can('ignore', $user);
@@ -73,7 +63,13 @@ return [
         ->addGambit(IgnoredGambit::class),
 
     (new Extend\ApiController(ShowForumController::class))
-        ->addInclude('actor.ignoredUsers'),
+        ->addInclude('actor.ignoredUsers')
+        ->prepareDataForSerialization(function ($controller, $data, $request) {
+            $actor = RequestUtil::getActor($request);
+            if (!$actor->isGuest()) {
+                IgnoreState::preload($actor->id);
+            }
+        }),
 
     (new Extend\Settings())
         ->serializeToForum('fof-ignore-users.ignored_discussion_default_behavior', 'fof-ignore-users.ignored_discussion_default_behavior')

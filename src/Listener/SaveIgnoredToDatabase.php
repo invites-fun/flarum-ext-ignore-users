@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Flarum\User\Event\Saving;
 use FoF\IgnoreUsers\Event\Ignoring;
 use FoF\IgnoreUsers\Event\Unignoring;
+use FoF\IgnoreUsers\IgnoreState;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
 
@@ -63,6 +64,7 @@ class SaveIgnoredToDatabase
             }
 
             if ($changed) {
+                IgnoreState::invalidateCache($actor->id);
                 $actor->load('ignoredUsers');
             }
         }
