@@ -8,6 +8,7 @@ fof-ignore-users:
       default_behavior_options:
         label: 标记
         hide: 折叠
+        block: 完全屏蔽
 
   forum:
     profile_link: 已屏蔽用户
@@ -32,3 +33,4 @@ fof-ignore-users:
       default_behavior_options:
         label: 标记
         hide: 折叠
+        block: 完全屏蔽

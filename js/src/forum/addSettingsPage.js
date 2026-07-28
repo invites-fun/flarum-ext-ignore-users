@@ -12,6 +12,7 @@ export default () => {
     const behaviorOptions = {
       label: app.translator.trans('fof-ignore-users.forum.settings.default_behavior_options.label'),
       hide: app.translator.trans('fof-ignore-users.forum.settings.default_behavior_options.hide'),
+      block: app.translator.trans('fof-ignore-users.forum.settings.default_behavior_options.block'),
     };
 
     items.add(

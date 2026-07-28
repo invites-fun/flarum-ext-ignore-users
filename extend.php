@@ -13,11 +13,15 @@ namespace FoF\IgnoreUsers;
 
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer;
+use Flarum\Discussion\Discussion;
 use Flarum\Extend;
 use Flarum\Http\RequestUtil;
+use Flarum\Post\Post;
 use Flarum\User\Event\Saving;
 use Flarum\User\Search\UserSearcher;
 use Flarum\User\User;
+use FoF\IgnoreUsers\Scope\HideIgnoredDiscussionsScope;
+use FoF\IgnoreUsers\Scope\HideIgnoredPostsScope;
 use FoF\IgnoreUsers\User\Search\Gambit\IgnoredGambit;
 
 return [
@@ -82,5 +86,11 @@ return [
         ->registerPreference('fof-ignore-users.ignored_post_behavior', function ($value) {
             return $value;
         }, resolve('flarum.settings')->get('fof-ignore-users.ignored_post_default_behavior', 'hide')),
+
+    (new Extend\ModelVisibility(Discussion::class))
+        ->scope(HideIgnoredDiscussionsScope::class, 'view'),
+
+    (new Extend\ModelVisibility(Post::class))
+        ->scope(HideIgnoredPostsScope::class, 'view'),
 
 ];

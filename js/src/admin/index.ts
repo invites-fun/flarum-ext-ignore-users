@@ -18,6 +18,7 @@ app.initializers.add('fof-ignore-users', () => {
       options: {
         label: app.translator.trans('fof-ignore-users.admin.settings.default_behavior_options.label'),
         hide: app.translator.trans('fof-ignore-users.admin.settings.default_behavior_options.hide'),
+        block: app.translator.trans('fof-ignore-users.admin.settings.default_behavior_options.block'),
       },
       default: 'hide',
     })
@@ -28,6 +29,7 @@ app.initializers.add('fof-ignore-users', () => {
       options: {
         label: app.translator.trans('fof-ignore-users.admin.settings.default_behavior_options.label'),
         hide: app.translator.trans('fof-ignore-users.admin.settings.default_behavior_options.hide'),
+        block: app.translator.trans('fof-ignore-users.admin.settings.default_behavior_options.block'),
       },
       default: 'hide',
     });
