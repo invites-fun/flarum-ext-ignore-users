@@ -15,6 +15,10 @@ fof-ignore-users:
         label: Label
         hide: Hide
         block: Block
+      ignored_notification_default_behavior_label: Default Behavior for Notifications
+      notification_behavior_options:
+        allow: Allow
+        block: Block
 
 
   # Translations in this namespace are used by the forum interface.
@@ -47,4 +51,9 @@ fof-ignore-users:
       default_behavior_options:
         label: "Label"
         hide: "Hide"
+        block: "Block"
+      ignored_notification_default_behavior_label: Notifications
+      ignored_notification_default_behavior_help: How to handle notifications from ignored users
+      notification_behavior_options:
+        allow: "Allow"
         block: "Block"

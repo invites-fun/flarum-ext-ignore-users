@@ -62,6 +62,9 @@ return [
     (new Extend\SimpleFlarumSearch(UserSearcher::class))
         ->addGambit(IgnoredGambit::class),
 
+    (new Extend\Notification())
+        ->beforeSending(Listener\FilterIgnoredNotifications::class),
+
     (new Extend\ApiController(ShowForumController::class))
         ->prepareDataForSerialization(function ($controller, $data, $request) {
             $actor = RequestUtil::getActor($request);
@@ -72,15 +75,19 @@ return [
 
     (new Extend\Settings())
         ->serializeToForum('fof-ignore-users.ignored_discussion_default_behavior', 'fof-ignore-users.ignored_discussion_default_behavior')
-        ->serializeToForum('fof-ignore-users.ignored_post_default_behavior', 'fof-ignore-users.ignored_post_default_behavior'),
+        ->serializeToForum('fof-ignore-users.ignored_post_default_behavior', 'fof-ignore-users.ignored_post_default_behavior')
+        ->serializeToForum('fof-ignore-users.ignored_notification_default_behavior', 'fof-ignore-users.ignored_notification_default_behavior'),
 
-        (new Extend\User())
+    (new Extend\User())
         ->registerPreference('fof-ignore-users.ignored_discussion_behavior', function ($value) {
             return $value;
         },  resolve('flarum.settings')->get('fof-ignore-users.ignored_discussion_default_behavior', 'hide'))
         ->registerPreference('fof-ignore-users.ignored_post_behavior', function ($value) {
             return $value;
-        }, resolve('flarum.settings')->get('fof-ignore-users.ignored_post_default_behavior', 'hide')),
+        }, resolve('flarum.settings')->get('fof-ignore-users.ignored_post_default_behavior', 'hide'))
+        ->registerPreference('fof-ignore-users.ignored_notification_behavior', function ($value) {
+            return $value;
+        }, resolve('flarum.settings')->get('fof-ignore-users.ignored_notification_default_behavior', 'block')),
 
     (new Extend\ModelVisibility(Discussion::class))
         ->scope(HideIgnoredDiscussionsScope::class, 'view'),
