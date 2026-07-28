@@ -41,14 +41,14 @@ return [
             ->withPivot('ignored_at');
         }),
 
-    (new Extend\ApiSerializer(Serializer\UserSerializer::class))
-        ->attribute('ignored', function (Serializer\UserSerializer $serializer, User $user) {
+    (new Extend\ApiSerializer(Serializer\BasicUserSerializer::class))
+        ->attribute('ignored', function (Serializer\BasicUserSerializer $serializer, User $user) {
             $actor = $serializer->getActor();
 
             /** @phpstan-ignore-next-line */
             return !$user->can('notBeIgnored') && IgnoreState::isIgnored($actor->id, $user->id);
         })
-        ->attribute('canBeIgnored', function (Serializer\UserSerializer $serializer, User $user) {
+        ->attribute('canBeIgnored', function (Serializer\BasicUserSerializer $serializer, User $user) {
             return (bool) $serializer->getActor()->can('ignore', $user);
         }),
 
