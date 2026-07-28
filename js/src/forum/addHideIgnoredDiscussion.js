@@ -17,7 +17,15 @@ export default function () {
       app.forum.attribute('fof-ignore-users.ignored_discussion_default_behavior') ||
       'hide';
 
-    if (preference === 'hide') {
+    if (preference === 'collapse') {
+      vdom.children = [
+        <div className="DiscussionListItem-content">
+          <a href={app.route.discussion(this.attrs.discussion)} className="DiscussionListItem-main" config={m.route}>
+            <h3 className="DiscussionListItem-title">{app.translator.trans('fof-ignore-users.forum.preview.ignored_discussion_preview')}</h3>
+          </a>
+        </div>
+      ];
+    } else if (preference === 'hide') {
       if (!vdom.attrs.style) vdom.attrs.style = {};
       vdom.attrs.style.display = 'none';
     }

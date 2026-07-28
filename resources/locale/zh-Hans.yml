@@ -7,7 +7,8 @@ fof-ignore-users:
       ignored_post_default_behavior_label: 已屏蔽用户的帖子处理方式（默认）
       default_behavior_options:
         label: 标记
-        hide: 折叠
+        collapse: 折叠
+        hide: 隐藏
         block: 完全屏蔽
       ignored_notification_default_behavior_label: 已屏蔽用户的通知处理方式（默认）
       notification_behavior_options:
@@ -24,6 +25,10 @@ fof-ignore-users:
       unignore_button: 取消屏蔽
       unignore_confirmation: 确定要取消屏蔽此人？
 
+    preview:
+      ignored_post_preview: 来自被屏蔽用户的帖子
+      ignored_discussion_preview: 来自被屏蔽用户的主题
+
     badge:
       user_label: 已屏蔽
       discussion_label: 由被屏蔽用户发布
@@ -36,7 +41,8 @@ fof-ignore-users:
       ignored_post_default_behavior_help: 如何处理被屏蔽用户发表的帖子
       default_behavior_options:
         label: 标记
-        hide: 折叠
+        collapse: 折叠
+        hide: 隐藏
         block: 完全屏蔽
       ignored_notification_default_behavior_label: 通知
       ignored_notification_default_behavior_help: 如何处理被屏蔽用户发出的通知

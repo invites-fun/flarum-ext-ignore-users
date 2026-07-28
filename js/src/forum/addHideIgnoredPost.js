@@ -14,8 +14,13 @@ export default function () {
       app.forum.attribute('fof-ignore-users.ignored_post_default_behavior') ||
       'hide';
 
-    if (preference === 'hide') {
-      elementAttrs.className += ' Post--hidden';
+    if (preference === 'collapse') {
+      if (!this.revealContent) {
+        elementAttrs.className += ' Post--hidden';
+      }
+    } else if (preference === 'hide') {
+      if (!elementAttrs.style) elementAttrs.style = {};
+      elementAttrs.style.display = 'none';
     }
 
     return elementAttrs;
@@ -33,7 +38,18 @@ export default function () {
       app.forum.attribute('fof-ignore-users.ignored_post_default_behavior') ||
       'hide';
 
-    if (preference === 'hide') {
+    if (preference === 'collapse') {
+      if (!this.revealContent) {
+        items.remove('user');
+        items.add(
+          'user',
+          <h3 className="PostUser">
+            <span className="PostUser-name">{app.translator.trans('fof-ignore-users.forum.preview.ignored_post_preview')}</span>
+          </h3>,
+          100
+        );
+      }
+
       items.add(
         'ignore-toggle',
         Button.component({

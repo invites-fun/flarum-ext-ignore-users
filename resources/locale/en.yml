@@ -13,6 +13,7 @@ fof-ignore-users:
       ignored_post_default_behavior_label: Default Behavior for Posts
       default_behavior_options:
         label: Label
+        collapse: Collapse
         hide: Hide
         block: Block
       ignored_notification_default_behavior_label: Default Behavior for Notifications
@@ -37,6 +38,7 @@ fof-ignore-users:
     
     preview:
       ignored_post_preview: "Post from ignored user"
+      ignored_discussion_preview: "Discussion from ignored user"
 
     badge:
       user_label: Ignored user
@@ -50,6 +52,7 @@ fof-ignore-users:
       ignored_post_default_behavior_help: How to handle posts from ignored users
       default_behavior_options:
         label: "Label"
+        collapse: "Collapse"
         hide: "Hide"
         block: "Block"
       ignored_notification_default_behavior_label: Notifications
