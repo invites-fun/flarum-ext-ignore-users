@@ -39,10 +39,6 @@ return [
         ->relationship('ignoredUsers', function (User $model) {
             return $model->belongsToMany(User::class, 'ignored_user', 'user_id', 'ignored_user_id')
             ->withPivot('ignored_at');
-        })
-        ->relationship('ignoredBy', function (User $model) {
-            return $model->belongsToMany(User::class, 'ignored_user', 'ignored_user_id', 'user_id')
-            ->withPivot('ignored_at');
         }),
 
     (new Extend\ApiSerializer(Serializer\BasicUserSerializer::class))
@@ -67,7 +63,6 @@ return [
         ->addGambit(IgnoredGambit::class),
 
     (new Extend\ApiController(ShowForumController::class))
-        ->addInclude('actor.ignoredUsers')
         ->prepareDataForSerialization(function ($controller, $data, $request) {
             $actor = RequestUtil::getActor($request);
             if (!$actor->isGuest()) {
